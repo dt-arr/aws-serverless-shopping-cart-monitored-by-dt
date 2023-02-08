@@ -79,12 +79,18 @@
 
 
 <script>
-  export default {
-    mounted() {
-      dtrum.identifyUser(localStorage.getItem('CognitoIdentityServiceProvider.6rrqe08vgvvs2shrhccojrq7em.LastAuthUser'));
-    },
+  window.onload = function() {
+    const signOutButton = document.querySelector('#app > div.v-application--wrap > header > div > div.v-toolbar__items > div > div > div > button');
+
+    if (signOutButton) {
+      signOutButton.addEventListener('click', identifyUser);
+    }
   };
-  </script>
+
+  function identifyUser() {
+    dtrum.identifyUser(localStorage.getItem('CognitoIdentityServiceProvider.6rrqe08vgvvs2shrhccojrq7em.LastAuthUser'));
+  }
+</script>
   
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
