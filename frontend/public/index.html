@@ -77,13 +77,10 @@
       
       </script>
 
-
 <script>
   window.onload = function() {
-    const signOutButton = document.querySelector('#app > div.v-application--wrap > header > div > div.v-toolbar__items > div > div > div > button');
-
-    if (signOutButton) {
-      signOutButton.addEventListener('click', identifyUser);
+    if (window.location.pathname === '/checkout') {
+      identifyUser();
     }
   };
 
