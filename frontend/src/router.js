@@ -19,6 +19,9 @@ Vue.use(AmplifyPlugin, AmplifyModules)
 
 getUser().then((user) => {
   if (user) {
+    dtrum.identifyUser(localStorage.getItem('CognitoIdentityServiceProvider.6rrqe08vgvvs2shrhccojrq7em.LastAuthUser'));
+    console.log(user);
+    
     router.push({
       path: '/'
     }).catch(() => {})
