@@ -238,7 +238,6 @@ Resources:
       CodeUri: shopping-cart-service/
       Handler: add_to_cart.lambda_handler
       Role: !GetAtt AddToCartRole.Arn
-      #ReservedConcurrentExecutions: 0
       Layers:
         - !Ref UtilsLayer
       Environment:
