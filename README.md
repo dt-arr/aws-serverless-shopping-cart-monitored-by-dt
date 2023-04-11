@@ -21,6 +21,9 @@ IAM permissions have been tricky and thus please update the IAM permissions of t
 
 #### Get Dynatrace Token, Environment variables from your Tenant
 
+Official Documentation: https://www.dynatrace.com/support/help/shortlink/aws-lambda-extension
+
+TLDR:
 1. Login to your tenant
 2. Go to Deploy Dynatrace > Install OneAgent > AWS Lambda
 3. Select Runtime to Python
@@ -38,6 +41,17 @@ IAM permissions have been tricky and thus please update the IAM permissions of t
 4. Use the parameters that were created in the previous step and enter the details accurately
 5. Create the stack and validate that the parameters were created in AWS SSM Parameters
 
+#### Inject JS for RUM
+
+Official Documentation: https://www.dynatrace.com/support/help/shortlink/agentless-rum
+
+TLDR:
+1. Go to Deploy Dynatrace > Agentless Real User Monitoring
+2. Create an application
+3. Copy the JS
+4. Paste it in index.html located in \frontend\public\
+
+
 ## Deploy the stack: Option 2 - Automatically deploy backend and frontend using Amplify Console
 
 
@@ -51,6 +65,20 @@ IAM permissions have been tricky and thus please update the IAM permissions of t
 6) Amplify Console will fork this repository into your GitHub account and deploy it for you
 7) You should now be able to see your app being deployed in the [Amplify Console](https://console.aws.amazon.com/amplify/home)
 8) Within your new app in Amplify Console, wait for deployment to complete (this should take approximately 12 minutes for the first deploy)
+
+
+#### Connect RUM with backend traces
+
+1. In the Dynatrace menu, select Web, Mobile, Frontend, or Custom applications, depending on your application type.
+2. Select the application you want to connect with your Lambda function.
+3. Select the browse menu (…) in the upper-right corner and select Edit.
+4. Select Capturing > Async web requests and SPAs.
+5. Make sure that your framework of choice is enabled. If your framework is not listed, enable Capture XmlHttpRequest (XHR) for generic support of XHR.
+6. Select Capturing > Advanced setup.
+7. Scroll down to the Enable Real User Monitoring for cross-origin XHR calls section and enter a pattern that matches the URL to your Lambda functions. For example: TheAwsUniqueId.execute-api.us-east-1.amazonaws.com
+Actual RegEx Vwill be: TheAwsUniqueId\.execute-api\.us-east-1\.amazonaws\.com
+8. You can get the URL by finding out the API Gateway URL the website is connecting to in the Browser Developer tools or in AWS Console
+8. Select Save. After a few minutes, the header will be attached to all calls to your Lambda function and requests from your browser will be linked to the backend.
 
 ## Design Notes
 
