@@ -41,15 +41,16 @@ const addToCart = (state, productId) => {
     // Send business event to Dynatrace
     const attributes = {
         "event.name": "Product Added to Cart",
-        "product": product.productDetail.productName,
-        "product": productId,
+        "productName": product.productDetail.name,
+        "ProductCategory": product.productDetail.category,
         "quantity": 1,
-        "amount": product.productDetail.price,
+        "priceInCents": product.productDetail.price,
+        "priceInDollars": (product.productDetail.price / 100).toFixed(2), // Ensure 2 decimal places
         "currency": "USD",  // Assuming the currency is USD
         // Add additional attributes as needed
     };
 
-    dynatrace.sendBizEvent('com.example.product-added-to-cart', attributes);
+    dynatrace.sendBizEvent('com.serverlessshopping.addToCart', attributes);
 };
     
 
