@@ -112,17 +112,44 @@ const migrateCart = ({
         })
 }
 
-const checkoutCart = ({
-    commit
-}) => {
-    commit("setLoading", {value: true, message: "This is where we'd handle payment before clearing the cart..."})
+
+const checkoutCart = ({ commit, state }) => {
+    // Calculate the total value of the cart and gather product details
+    const cartDetails = state.cart.map(product => ({
+        name: product.productDetail.productName,
+        quantity: product.quantity,
+        price: product.productDetail.price,
+    }));
+
+    const totalValue = cartDetails.reduce((total, product) => {
+        return total + product.quantity * product.price;
+    }, 0);
+
+    // Send business event to Dynatrace
+    const dynatraceAttributes = {
+        "event.name": "Checkout",
+        "totalValue": totalValue,
+        "currency": "USD",  // Assuming the currency is USD
+        "products": cartDetails,
+        // Add additional attributes as needed
+    };
+
+    // Replace the placeholder with the actual Dynatrace object and event name
+    dynatrace.sendBizEvent('com.serverlessshopping.checkout', dynatraceAttributes);
+
+    // Proceed with the checkout process
+    commit("setLoading", { value: true, message: "This is where we'd handle payment before clearing the cart..." });
+
+    // Simulate checkout process
     cartCheckout()
         .then(() => {
-            commit("setUpCart", [])
-            setTimeout(function() {commit("setLoading", {value: false})}, 3000)
-            setTimeout(function() {router.push("/")}, 3200)
-        })
-}
+            commit("setUpCart", []);
+            setTimeout(() => { commit("setLoading", { value: false }); }, 3000);
+            setTimeout(() => { router.push("/"); }, 3200);
+        });
+};
+
+
 
 export default {
     setLoading,
