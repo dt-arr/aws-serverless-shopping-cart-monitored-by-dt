@@ -120,17 +120,24 @@ const checkoutCart = ({ commit, state }) => {
         ProductCategory: product.productDetail.category,
         //ProductId:product.productDetail.productId,
         quantity: product.quantity,
-        priceinCents: product.productDetail.price,
+        priceInCents: product.productDetail.price,
+        priceInDollars: (product.productDetail.price / 100).toFixed(2), // Ensure 2 decimal places
+
     }));
 
-    const totalValue = cartDetails.reduce((total, product) => {
-        return total + product.quantity * product.priceinCents;
+    const totalValueInCents = cartDetails.reduce((total, product) => {
+        return total + product.quantity * product.priceInCents;
     }, 0);
 
+    const totalValueInDollars = cartDetails.reduce((total, product) => {
+        return total + product.quantity * product.priceInDollars;
+    }, 0);
+    
     // Send business event to Dynatrace
     const dynatraceAttributes = {
         "event.name": "Checkout",
-        "totalValue": totalValue,
+        "totalValueInCents": totalValueInCents,
+        "totalValueInDollars": totalValueInDollars,
         "currency": "USD",  // Assuming the currency is USD
         "products": cartDetails,
         // Add additional attributes as needed
