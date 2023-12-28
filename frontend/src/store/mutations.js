@@ -11,27 +11,7 @@ const setUser = (state, user) => {
 
 // ********
 
-// TEST BEGIN OF SENDING DYNATRACE BUSINESS EVENTS
 
-let attributes = {
-    "event.name": "Confirmed Booking",
-    "page": "booking-confirmation",
-    "product": "Danube Anna Hotel",
-    "amount": 358.35,
-    "currency": "USD",
-    "reviewScore": 4.8,
-    "arrivalDate": "2022-11-05",
-    "departureDate": "2022-11-15",
-    "journeyDuration": 10,
-    "adultTravelers": 2,
-    "childrenTravelers": 0
-};
-
-dynatrace.sendBizEvent('com.easytravel.funnel.booking-finished', attributes);
-
-// END OF SENDING DYNATRACE BUSINESS EVENTS
-
-// ********
 
 // EVERYTHING ELSE THAT ALREADY EXISTED:
 
@@ -58,7 +38,21 @@ const addToCart = (state, productId) => {
             quantity: 1,
         });
     }
-}
+    // Send business event to Dynatrace
+    const attributes = {
+        "event.name": "Product Added to Cart",
+        "product": product.productDetail.productName,
+        "product": productId,
+        "quantity": 1,
+        "amount": product.productDetail.price,
+        "currency": "USD",  // Assuming the currency is USD
+        // Add additional attributes as needed
+    };
+
+    dynatrace.sendBizEvent('com.example.product-added-to-cart', attributes);
+};
+    
+
 const removeFromCart = (state, productId) => {
     let product = {}
     product.productDetail = state.products[productId];
