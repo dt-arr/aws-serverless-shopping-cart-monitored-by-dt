@@ -117,6 +117,7 @@ const checkoutCart = ({ commit, state }) => {
     // Calculate the total value of the cart and gather product details
     const cartDetails = state.cart.map(product => ({
         name: product.productDetail.Name,
+        ProductName: Name,
         quantity: product.quantity,
         price: product.productDetail.price,
     }));
