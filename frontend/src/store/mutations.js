@@ -1,3 +1,5 @@
+// BEGIN OF DYNATRCE USER TAG
+
 const setUser = (state, user) => {
     if(user != null){
         dtrum.identifyUser(user.username);
@@ -5,6 +7,33 @@ const setUser = (state, user) => {
     }
     state.user = user
 }
+// END OF DYNATRACE USER TAG
+
+// ********
+
+// TEST BEGIN OF SENDING DYNATRACE BUSINESS EVENTS
+
+let attributes = {
+    "event.name": "Confirmed Booking",
+    "page": "booking-confirmation",
+    "product": "Danube Anna Hotel",
+    "amount": 358.35,
+    "currency": "USD",
+    "reviewScore": 4.8,
+    "arrivalDate": "2022-11-05",
+    "departureDate": "2022-11-15",
+    "journeyDuration": 10,
+    "adultTravelers": 2,
+    "childrenTravelers": 0
+};
+
+dynatrace.sendBizEvent('com.easytravel.funnel.booking-finished', attributes);
+
+// END OF SENDING DYNATRACE BUSINESS EVENTS
+
+// ********
+
+// EVERYTHING ELSE THAT ALREADY EXISTED:
 
 const setUpProducts = (state, productsPayload) => {
     productsPayload.forEach((product) => {
