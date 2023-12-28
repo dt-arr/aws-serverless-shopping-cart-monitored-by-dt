@@ -116,7 +116,7 @@ const migrateCart = ({
 const checkoutCart = ({ commit, state }) => {
     // Calculate the total value of the cart and gather product details
     const cartDetails = state.cart.map(product => ({
-        name: product.productDetail.productName,
+        name: product.productDetail.Name,
         quantity: product.quantity,
         price: product.productDetail.price,
     }));
