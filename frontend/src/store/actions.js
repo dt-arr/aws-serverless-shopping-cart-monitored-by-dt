@@ -118,13 +118,13 @@ const checkoutCart = ({ commit, state }) => {
     const cartDetails = state.cart.map(product => ({
         ProductName: product.productDetail.name,
         ProductCategory: product.productDetail.category,
-        ProductId:product.productDetail.productId,
+        //ProductId:product.productDetail.productId,
         quantity: product.quantity,
         priceinCents: product.productDetail.price,
     }));
 
     const totalValue = cartDetails.reduce((total, product) => {
-        return total + product.quantity * product.price;
+        return total + product.quantity * product.priceinCents;
     }, 0);
 
     // Send business event to Dynatrace
